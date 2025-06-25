@@ -1,28 +1,22 @@
-#!/usr/bin/env python
-# coding: utf-8
+"Instagram Reach Forecasting using Python"
 
-# In[4]:
-
+step1:Importing the necessary Python libraries and the dataset:
 
 import pandas as pd
 import plotly.graph_objs as go
 import plotly.express as px
 import plotly.io as pio
 pio.templates.default = "plotly_white"
-
 data = pd.read_csv("Instaa.txt", encoding = 'latin-1')
 print(data.head())
 
-
-# In[5]:
-
+step2:I’ll convert the Date column into datetime datatype to move forward:
 
 data['Date'] = pd.to_datetime(data['Date'])
 print(data.head())
 
-
-# In[6]:
-
+"Analyzing Reach"
+#Let’s analyze the trend of Instagram reach over time using a line chart:
 
 fig = go.Figure()
 fig.add_trace(go.Scatter(x=data['Date'], 
@@ -33,8 +27,7 @@ fig.update_layout(title='Instagram Reach Trend', xaxis_title='Date',
 fig.show()
 
 
-# In[7]:
-
+"Now analyze Instagram reach for each day using a BAR CHART":
 
 fig = go.Figure()
 fig.add_trace(go.Bar(x=data['Date'], 
@@ -46,8 +39,7 @@ fig.update_layout(title='Instagram Reach by Day',
 fig.show()
 
 
-# In[8]:
-
+"Now analyze the distribution of Instagram reach using a BOX PLOT":
 
 fig = go.Figure()
 fig.add_trace(go.Box(y=data['Instagram reach'], 
@@ -57,24 +49,20 @@ fig.update_layout(title='Instagram Reach Box Plot',
 fig.show()
 
 
-# In[9]:
-
+"analyze reach based on the Days of the Week":
 
 data['Day'] = data['Date'].dt.day_name()
 print(data.head())
 
 
-# In[10]:
-
+#Calculate the mean, median, and standard deviation of the Instagram reach column for each day:
 
 import numpy as np
-
+import numpy as np
 day_stats = data.groupby('Day')['Instagram reach'].agg(['mean', 'median', 'std']).reset_index()
 print(day_stats)
 
-
-# In[11]:
-
+# A bar chart to visualize the reach for each day of the week:
 
 fig = go.Figure()
 fig.add_trace(go.Bar(x=day_stats['Day'], 
@@ -92,7 +80,7 @@ fig.update_layout(title='Instagram Reach by Day of the Week',
 fig.show()
 
 
-# In[12]:
+# Instagram Reach Forecasting using Time Series Forecasting:
 
 
 from plotly.tools import mpl_to_plotly
@@ -112,14 +100,12 @@ fig = mpl_to_plotly(fig)
 fig.show()
 
 
-# In[13]:
-
+#Now here’s how to visualize an autocorrelation plot to find the value of p:
 
 pd.plotting.autocorrelation_plot(data["Instagram reach"])
 
 
-# In[15]:
-
+# And now here’s how to visualize a partial autocorrelation plot to find the value of q:
 
 from statsmodels.graphics.tsaplots import plot_pacf
 plot_pacf(data["Instagram reach"], lags=100, method='ywm')
