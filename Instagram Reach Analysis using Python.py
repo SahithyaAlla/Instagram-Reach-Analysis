@@ -1,21 +1,8 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[1]:
-
+#"Instagram Reach Analysis"
+"Now let’s start the task of analyzing the reach of my Instagram account by importing the necessary Python libraries and the dataset:"
 
 get_ipython().system('pip install plotly')
-
-
-# In[2]:
-
-
 get_ipython().system('pip install wordcloud')
-
-
-# In[12]:
-
-
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -28,27 +15,23 @@ from sklearn.linear_model import PassiveAggressiveRegressor
 data = pd.read_csv("Instagram.csv", encoding = 'latin1')
 print(data.head())
 
-
-# In[13]:
-
+#"step2:Before starting everything, let’s have a look at whether this dataset contains any null values or not:"
 
 data.isnull().sum()
 
 
-# In[14]:
+#"step3:So it has a null value in every column. Let’s drop all these null values and move further:"
 
 
 data = data.dropna()
 
 
-# In[15]:
-
+#"step4:Let’s have a look at the insights of the columns to understand the data type of all the columns:"
 
 data.info()
 
 
-# In[20]:
-
+#Now let’s start with analyzing the reach of my Instagram posts. I will first have a look at the distribution of impressions I have received from home:"
 
 plt.figure(figsize=(10, 8))
 plt.style.use('fivethirtyeight')
@@ -57,8 +40,7 @@ sns.histplot(data['From Home'])
 plt.show()
 
 
-# In[21]:
-
+#let’s have a look at the distribution of the impressions I received from hashtags:
 
 plt.figure(figsize=(10, 8))
 plt.title("Distribution of Impressions From Hashtags")
@@ -66,7 +48,7 @@ sns.histplot(data['From Hashtags'])
 plt.show()
 
 
-# In[19]:
+#let’s have a look at the distribution of impressions I have received from the explore section of Instagram:
 
 
 plt.figure(figsize=(10, 8))
@@ -75,7 +57,7 @@ sns.histplot(data['From Explore'])
 plt.show()
 
 
-# In[22]:
+#let’s have a look at the percentage of impressions I get from various sources on Instagram:
 
 
 home = data["From Home"].sum()
@@ -91,8 +73,8 @@ fig = px.pie(data, values=values, names=labels,
 fig.show()
 
 
-# In[23]:
-
+#Analyzing Content
+#Now let’s analyze the content of my Instagram posts.
 
 text = " ".join(i for i in data.Caption)
 stopwords = set(STOPWORDS)
@@ -104,8 +86,7 @@ plt.axis("off")
 plt.show()
 
 
-# In[24]:
-
+#through hashtag
 
 text = " ".join(i for i in data.Hashtags)
 stopwords = set(STOPWORDS)
@@ -116,20 +97,13 @@ plt.axis("off")
 plt.show()
 
 
-# In[32]:
+#Analyzing Relationships
 
 
 get_ipython().system('pip install statsmodels')
-
-
-# In[34]:
-
-
 import plotly.express as px
 
-
-# In[35]:
-
+#"Relationship Between Likes and Impressions":
 
 figure = px.scatter(data_frame = data, x="Impressions",
                     y="Likes", size="Likes", trendline="ols", 
@@ -137,7 +111,7 @@ figure = px.scatter(data_frame = data, x="Impressions",
 figure.show()
 
 
-# In[36]:
+#"Relationship Between Comments and Total Impressions"
 
 
 figure = px.scatter(data_frame = data, x="Impressions",
@@ -146,7 +120,7 @@ figure = px.scatter(data_frame = data, x="Impressions",
 figure.show()
 
 
-# In[37]:
+#"Relationship Between Shares and Total Impressions"
 
 
 figure = px.scatter(data_frame = data, x="Impressions",
@@ -155,7 +129,7 @@ figure = px.scatter(data_frame = data, x="Impressions",
 figure.show()
 
 
-# In[38]:
+#"Relationship Between Post Saves and Total Impressions"
 
 
 figure = px.scatter(data_frame = data, x="Impressions",
@@ -164,7 +138,7 @@ figure = px.scatter(data_frame = data, x="Impressions",
 figure.show()
 
 
-# In[39]:
+#Instagram Reach Prediction Model:
 
 
 x = np.array(data[['Likes', 'Saves', 'Comments', 'Shares', 
@@ -175,23 +149,20 @@ xtrain, xtest, ytrain, ytest = train_test_split(x, y,
                                                 random_state=42)
 
 
-# In[40]:
-
+#Now here’s is how we can train a machine learning model to predict the reach of an Instagram post using Python:
 
 model = PassiveAggressiveRegressor()
 model.fit(xtrain, ytrain)
 model.score(xtest, ytest)
 
 
-# In[41]:
+#Now let’s predict the reach of an Instagram post by giving inputs to the machine learning model:
 
 
 # Features = [['Likes','Saves', 'Comments', 'Shares', 'Profile Visits', 'Follows']]
 features = np.array([[282.0, 233.0, 4.0, 9.0, 165.0, 54.0]])
 model.predict(features)
 
-
-# In[ ]:
 
 
 
