@@ -1,6 +1,6 @@
-"Instagram Reach Forecasting using Python"
+#"Instagram Reach Forecasting using Python"
 
-step1:Importing the necessary Python libraries and the dataset:
+#step1:Importing the necessary Python libraries and the dataset:
 
 import pandas as pd
 import plotly.graph_objs as go
@@ -10,12 +10,12 @@ pio.templates.default = "plotly_white"
 data = pd.read_csv("Instaa.txt", encoding = 'latin-1')
 print(data.head())
 
-step2:I’ll convert the Date column into datetime datatype to move forward:
+#step2:I’ll convert the Date column into datetime datatype to move forward:
 
 data['Date'] = pd.to_datetime(data['Date'])
 print(data.head())
 
-"Analyzing Reach"
+#"Analyzing Reach"
 #Let’s analyze the trend of Instagram reach over time using a line chart:
 
 fig = go.Figure()
@@ -27,7 +27,7 @@ fig.update_layout(title='Instagram Reach Trend', xaxis_title='Date',
 fig.show()
 
 
-"Now analyze Instagram reach for each day using a BAR CHART":
+#"Now analyze Instagram reach for each day using a BAR CHART":
 
 fig = go.Figure()
 fig.add_trace(go.Bar(x=data['Date'], 
@@ -39,7 +39,7 @@ fig.update_layout(title='Instagram Reach by Day',
 fig.show()
 
 
-"Now analyze the distribution of Instagram reach using a BOX PLOT":
+#"Now analyze the distribution of Instagram reach using a BOX PLOT":
 
 fig = go.Figure()
 fig.add_trace(go.Box(y=data['Instagram reach'], 
@@ -49,7 +49,7 @@ fig.update_layout(title='Instagram Reach Box Plot',
 fig.show()
 
 
-"analyze reach based on the Days of the Week":
+#"Analyze reach based on the Days of the Week":
 
 data['Day'] = data['Date'].dt.day_name()
 print(data.head())
@@ -62,7 +62,7 @@ import numpy as np
 day_stats = data.groupby('Day')['Instagram reach'].agg(['mean', 'median', 'std']).reset_index()
 print(day_stats)
 
-# A bar chart to visualize the reach for each day of the week:
+#A bar chart to visualize the reach for each day of the week:
 
 fig = go.Figure()
 fig.add_trace(go.Bar(x=day_stats['Day'], 
@@ -80,7 +80,7 @@ fig.update_layout(title='Instagram Reach by Day of the Week',
 fig.show()
 
 
-# Instagram Reach Forecasting using Time Series Forecasting:
+#Instagram Reach Forecasting using Time Series Forecasting:
 
 
 from plotly.tools import mpl_to_plotly
@@ -105,7 +105,7 @@ fig.show()
 pd.plotting.autocorrelation_plot(data["Instagram reach"])
 
 
-# And now here’s how to visualize a partial autocorrelation plot to find the value of q:
+#And now here’s how to visualize a partial autocorrelation plot to find the value of q:
 
 from statsmodels.graphics.tsaplots import plot_pacf
 plot_pacf(data["Instagram reach"], lags=100, method='ywm')
